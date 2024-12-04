@@ -1,16 +1,24 @@
+
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-const FacultyLoadProLogin = () => {
-  const [email, setEmail] = useState('user@example.com');
-  const [password, setPassword] = useState('USER');
+const LoginScreen = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const navigation = useNavigation();
 
   const handleLogin = () => {
-    // Basic validation logic
-    if (email === 'user@example.com' && password === 'USER') {
-      navigation.navigate('dashboard');
+    // Simple validation for non-empty fields
+    if (email === '' || password === '') {
+      Alert.alert('Error', 'Please enter both email and password');
+      return;
+    }
+
+    // Simple authentication logic (you can replace this with a real backend API)
+    if (email === 'user@example.com' && password === 'password') {
+      // If login is successful, navigate to the dashboard
+      navigation.navigate('DashboardScreen');
     } else {
       Alert.alert('Error', 'Invalid email or password');
     }
@@ -18,45 +26,24 @@ const FacultyLoadProLogin = () => {
 
   return (
     <View style={styles.container}>
-      {/* Logo Section */}
-
-{/*    # UNFINISHED NI SYA NA LOGO
-
-
-      <View style={styles.logoContainer}>
-        <Image
-          source={require('../assets/images/facultyloadpro.png')}
-          style={{ width: 400, height: 400 }}
-        />
-      </View>
-
-
-
-*/}
-
-      {/* Login Form */}
-      <View style={styles.formContainer}>
-        <Text style={styles.loginTitle}>Log in</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="EMAIL"
-          placeholderTextColor="#666"
-          keyboardType="email-address"
-          value={email}
-          onChangeText={setEmail}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="PASSWORD"
-          placeholderTextColor="#666"
-          secureTextEntry
-          value={password}
-          onChangeText={setPassword}
-        />
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>Log In</Text>
-        </TouchableOpacity>
-      </View>
+      <Text style={styles.title}>Login</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        keyboardType="email-address"
+        value={email}
+        onChangeText={setEmail}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        secureTextEntry
+        value={password}
+        onChangeText={setPassword}
+      />
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+        <Text style={styles.buttonText}>Log In</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -64,47 +51,38 @@ const FacultyLoadProLogin = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F0F8FF',
-    alignItems: 'center',
     justifyContent: 'center',
-  },
-  logoContainer: {
     alignItems: 'center',
-    marginBottom: 20,
+    padding: 16,
+    backgroundColor: '#f0f8ff',
   },
-  formContainer: {
-    width: '80%',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    padding: 20,
-    elevation: 5,
-  },
-  loginTitle: {
-    fontSize: 20,
+  title: {
+    fontSize: 30,
     fontWeight: 'bold',
     marginBottom: 20,
-    textAlign: 'center',
   },
   input: {
+    width: '80%',
     height: 50,
-    borderColor: '#ddd',
+    borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 5,
-    paddingHorizontal: 15,
     marginBottom: 15,
+    paddingHorizontal: 10,
     fontSize: 16,
   },
-  loginButton: {
-    backgroundColor: '#FFC107',
-    paddingVertical: 15,
+  button: {
+    width: '80%',
+    padding: 15,
+    backgroundColor: '#007bff',
     borderRadius: 5,
     alignItems: 'center',
   },
-  loginButtonText: {
-    color: '#FFF',
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
     fontWeight: 'bold',
-    fontSize: 16,
   },
 });
 
-export default FacultyLoadProLogin;
+export default LoginScreen;
