@@ -9,10 +9,21 @@ const LoginScreen = () => {
   const navigation = useNavigation();
 
   const handleLogin = () => {
-    // Navigate to DashboardScreen
-    navigation.navigate('DashboardScreen');
+    // Example hardcoded credentials
+    const validEmail = "user@example.com";
+    const validPassword = "password123";
+
+    if (email === validEmail && password === validPassword) {
+      Alert.alert("Success", "Login successful!");
+      // Navigate to DashboardScreen
+      navigation.navigate('DashboardScreen');
+    } else {
+      Alert.alert("Error", "Invalid email or password.");
+    }
   };
 
+
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
