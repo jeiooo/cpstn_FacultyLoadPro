@@ -22,6 +22,10 @@ const LoginScreen = () => {
     }
   };
 
+  const handleSignup = () => {
+      navigation.navigate('SignUpScreen');
+  };
+
 
   
   return (
@@ -43,6 +47,10 @@ const LoginScreen = () => {
       />
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Log In</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.button} onPress={handleSignup}>
+        <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
 
     </View>
