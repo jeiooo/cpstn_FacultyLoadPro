@@ -6,20 +6,24 @@ import DashboardScreen from './dashboard';
 import SignUpScreen from './SignUp'; 
 import TestScreen from './test';
 
+import { Provider } from '../components/globalContext/globalContext';
+
 const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
-        <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-        {/* <Stack.Screen name="DashboardScreen" component={DashboardScreen} options={{ headerShown: false }} /> */}
-        <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
-        {/* <Stack.Screen name="TestScreen" component={TestScreen} /> */}
-        <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
+    <Provider>
+      <NavigationContainer>
+        <Stack.Navigator initialRouteName="Login">
+          <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
+          {/* <Stack.Screen name="DashboardScreen" component={DashboardScreen} options={{ headerShown: false }} /> */}
+          <Stack.Screen name="DashboardScreen" component={DashboardScreen} />
+          {/* <Stack.Screen name="TestScreen" component={TestScreen} /> */}
+          <Stack.Screen name="SignUpScreen" component={SignUpScreen} />
 
-      </Stack.Navigator>
-    </NavigationContainer>
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 };
 

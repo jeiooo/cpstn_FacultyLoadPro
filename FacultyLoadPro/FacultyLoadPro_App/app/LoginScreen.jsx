@@ -1,33 +1,59 @@
-
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Pressable } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import { Context } from '../components/globalContext/globalContext'; // Assuming you have a global context
 
 const LoginScreen = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigation = useNavigation();
+  const { domain } = useContext(Context); // Using domain from the context
 
   const handleLogin = () => {
-    // Example hardcoded credentials
-    const validEmail = "user@example.com";
-    const validPassword = "password123";
-
-    if (email === validEmail && password === validPassword) {
-      Alert.alert("Success", "Login successful!");
-      // Navigate to DashboardScreen
-      navigation.navigate('DashboardScreen');
-    } else {
-      Alert.alert("Error", "Invalid email or password.");
+    if (!email || !password) {
+      Alert.alert("Error", "Please enter both email and password.");
+      return;
     }
+
+    const body = JSON.stringify({
+      username: email,
+      password: password
+    });
+
+    // Make sure 'domain' is being passed correctly from the Context
+    const apiUrl = `${domain}/api/login-user/`;
+
+    fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: body
+    })
+    .then((res) => {
+      if (!res.ok) {
+        return res.json().then((error) => {
+          throw error;
+        });
+      }
+      return res.json();
+    })
+    .then((json) => {
+      console.log(json);
+      Alert.alert('Success', 'Login successful!');
+      // Navigate to the next screen after successful login
+      navigation.navigate('DashboardScreen');
+    })
+    .catch((error) => {
+      console.error(error);
+      Alert.alert('Error', 'Login failed. Please check your credentials.');
+    });
   };
 
   const handleSignup = () => {
-      navigation.navigate('SignUpScreen');
+    navigation.navigate('SignUpScreen');
   };
 
-
-  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Login</Text>
@@ -52,7 +78,6 @@ const LoginScreen = () => {
       <TouchableOpacity style={styles.button} onPress={handleSignup}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
-
     </View>
   );
 };

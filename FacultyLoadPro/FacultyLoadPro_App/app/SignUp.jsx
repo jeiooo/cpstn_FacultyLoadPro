@@ -1,52 +1,73 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 
-const SignUpScreen = () => {
-  const [name, setName] = useState('');
+import { useNavigation } from '@react-navigation/native';
+
+const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const navigation = useNavigation();
 
   const handleSignUp = () => {
-    if (!name || !email || !password) {
-      Alert.alert('Error', 'Please fill in all fields');
+    if (password !== confirmPassword) {
+      Alert.alert('Error', 'Passwords do not match');
       return;
     }
-
-    Alert.alert('Success', `Welcome, ${name}!`);
-    // Here you would typically send the data to your server
+    
+    // Basic validation (for example: simple email check and password length check)
+    if (email && password.length >= 6) {
+      Alert.alert('Success', 'Account created successfully');
+      navigation.navigate('FacultyLoadProLogin'); // Navigate back to Login screen after Sign Up
+    } else {
+      Alert.alert('Error', 'Please check your email and password');
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign Up</Text>
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Name"
-        value={name}
-        onChangeText={setName}
-      />
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-      
-      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </TouchableOpacity>
+      {/* Logo Section */}
+      <View style={styles.logoContainer}>
+        <Text style={styles.logoText}>Sign Up</Text>
+      </View>
+
+      {/* SignUp Form */}
+      <View style={styles.formContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="EMAIL"
+          placeholderTextColor="#666"
+          keyboardType="email-address"
+          value={email}
+          onChangeText={setEmail}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="PASSWORD"
+          placeholderTextColor="#666"
+          secureTextEntry
+          value={password}
+          onChangeText={setPassword}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="CONFIRM PASSWORD"
+          placeholderTextColor="#666"
+          secureTextEntry
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+        />
+        <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
+          <Text style={styles.signUpButtonText}>Sign Up</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.loginRedirect}
+          onPress={() => navigation.navigate('FacultyLoadProLogin')}
+        >
+          <Text style={styles.redirectText}>Already have an account? Log In</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -54,37 +75,53 @@ const SignUpScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#F0F8FF',
+    alignItems: 'center',
     justifyContent: 'center',
-    padding: 20,
-    backgroundColor: '#f5f5f5',
   },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
+  logoContainer: {
+    alignItems: 'center',
     marginBottom: 20,
-    textAlign: 'center',
+  },
+  logoText: {
+    fontSize: 30,
+    fontWeight: 'bold',
+  },
+  formContainer: {
+    width: '80%',
+    backgroundColor: '#FFFFFF',
+    borderRadius: 10,
+    padding: 20,
+    elevation: 5,
   },
   input: {
     height: 50,
-    borderColor: '#ccc',
+    borderColor: '#ddd',
     borderWidth: 1,
-    borderRadius: 8,
-    paddingHorizontal: 10,
+    borderRadius: 5,
+    paddingHorizontal: 15,
     marginBottom: 15,
-    backgroundColor: '#fff',
+    fontSize: 16,
   },
-  button: {
-    height: 50,
-    backgroundColor: '#007BFF',
-    borderRadius: 8,
-    justifyContent: 'center',
+  signUpButton: {
+    backgroundColor: '#FFC107',
+    paddingVertical: 15,
+    borderRadius: 5,
     alignItems: 'center',
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
+  signUpButtonText: {
+    color: '#FFF',
     fontWeight: 'bold',
+    fontSize: 16,
+  },
+  loginRedirect: {
+    marginTop: 10,
+    alignItems: 'center',
+  },
+  redirectText: {
+    fontSize: 14,
+    color: '#007BFF',
   },
 });
 
-export default SignUpScreen;
+export default SignIn;
